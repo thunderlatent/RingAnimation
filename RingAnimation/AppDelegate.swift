@@ -12,10 +12,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
-    }
+    var window: UIWindow?
+
+        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+            window = UIWindow.init()
+            window?.rootViewController = ViewController()
+            window?.rootViewController?.view.backgroundColor = .white
+            window?.makeKeyAndVisible()
+            // Override point for customization after application launch.
+            return true
+        }
 
     // MARK: UISceneSession Lifecycle
 
