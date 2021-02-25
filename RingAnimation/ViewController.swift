@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         shaperLayer.path = circlePath.cgPath
         shaperLayer.strokeColor = UIColor.green.cgColor
         shaperLayer.fillColor = UIColor.clear.cgColor
-        shaperLayer.strokeEnd = 0.0
+        shaperLayer.strokeEnd = 0
         
         view.layer.addSublayer(shaperLayer)
     }
@@ -86,11 +86,7 @@ class ViewController: UIViewController {
     @objc func runAnimation()
     {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.toValue = Double(percent) * 0.01
-        animation.duration = 0.03
-        animation.isRemovedOnCompletion = false
-        animation.fillMode = .forwards
-        shaperLayer.add(animation, forKey: "animation")
+        animation.fromValue = CGFloat(percent) * 0.01
         if percent < 100
         {
             percent += 1
@@ -99,11 +95,17 @@ class ViewController: UIViewController {
             self.timer?.invalidate()
             
         }
+        animation.toValue = CGFloat(percent) * 0.01
+        animation.duration = 0.03
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = .forwards
+        shaperLayer.add(animation, forKey: "animation")
+       
     }
     @objc func addPercentTimer()
     {
         self.percent = 0
-        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(runAnimation), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(runAnimation), userInfo: nil, repeats: true)
         
     }
     @objc func test()
