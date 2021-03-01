@@ -43,6 +43,8 @@ class ViewController: UIViewController {
         configureRunAnimationButton()
         // Do any additional setup after loading the view.
         createRingCircle()
+        
+        
     }
     
     
@@ -59,7 +61,9 @@ class ViewController: UIViewController {
         shaperLayer.path = circlePath.cgPath
         shaperLayer.strokeColor = UIColor.green.cgColor
         shaperLayer.fillColor = UIColor.clear.cgColor
+        shaperLayer.lineCap = .round
         shaperLayer.strokeEnd = 0
+        
         
         view.layer.addSublayer(shaperLayer)
     }
@@ -90,12 +94,15 @@ class ViewController: UIViewController {
         if percent < 100
         {
             percent += 1
+            shaperLayer.strokeEnd = CGFloat(percent) * 0.01
+
+            
         }else
         {
             self.timer?.invalidate()
+            UIView.setAnimationsEnabled(true) 
             
         }
-        animation.toValue = CGFloat(percent) * 0.01
         animation.duration = 0.03
         animation.isRemovedOnCompletion = false
         animation.fillMode = .forwards
