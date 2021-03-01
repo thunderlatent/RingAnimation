@@ -8,17 +8,16 @@
 import UIKit
 import SnapKit
 class ViewController: UIViewController {
-    var percent = 0
+    var circleProgressLayer: CircleProgressBar!
+    var percentValue = 0
     {
         didSet
         {
-            percentLabel.text = "\(percent)%"
-            print(percent)
+            circleProgressLayer.progressValue = percentValue
+            percentLabel.text = "\(percentValue)%"
         }
     }
     var timer: Timer?
-    let shaperLayer = CAShapeLayer()
-    let trackShaperLayer = CAShapeLayer()
     var percentLabel: UILabel =
         {
             let label = UILabel()
@@ -37,45 +36,16 @@ class ViewController: UIViewController {
             button.addTarget(self, action: #selector(addPercentTimer), for: .touchUpInside)
             return button
         }()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configurePercentLabel()
-        configureRunAnimationButton()
-        // Do any additional setup after loading the view.
-        createRingCircle()
-        
-        
-    }
-    
-    
-    func createRingCircle()
-    {
-        let circlePath = UIBezierPath(arcCenter: view.center, radius: 150, startAngle: .pi * -0.5, endAngle: .pi * 1.5, clockwise: true)
-        trackShaperLayer.path = circlePath.cgPath
-        trackShaperLayer.lineWidth = 15
-        trackShaperLayer.fillColor = UIColor.clear.cgColor
-        trackShaperLayer.strokeColor = UIColor.lightGray.cgColor
-        view.layer.addSublayer(trackShaperLayer)
-        
-        shaperLayer.lineWidth = 15
-        shaperLayer.path = circlePath.cgPath
-        shaperLayer.strokeColor = UIColor.green.cgColor
-        shaperLayer.fillColor = UIColor.clear.cgColor
-        shaperLayer.lineCap = .round
-        shaperLayer.strokeEnd = 0
-        
-        
-        view.layer.addSublayer(shaperLayer)
-    }
     private func configurePercentLabel()
     {
         view.addSubview(percentLabel)
-        percentLabel.text = "\(percent)"
+        percentLabel.text = "\(percentValue)"
         percentLabel.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.2)
             make.height.equalToSuperview().multipliedBy(0.1)
         }
+        view.layoutIfNeeded()
     }
     
     private func configureRunAnimationButton()
@@ -86,38 +56,36 @@ class ViewController: UIViewController {
             make.height.equalToSuperview().multipliedBy(0.08)
         }
     }
-    
-    @objc func runAnimation()
-    {
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = CGFloat(percent) * 0.01
-        if percent < 100
-        {
-            percent += 1
-            shaperLayer.strokeEnd = CGFloat(percent) * 0.01
+    override func viewWillAppear(_ animated: Bool) {
+        view.backgroundColor = .black
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureRunAnimationButton()
+        circleProgressLayer = CircleProgressBar(radius: 80)
+        view.layer.addSublayer(circleProgressLayer)
+        circleProgressLayer.position = view.center
+        configurePercentLabel()
 
-            
-        }else
-        {
-            self.timer?.invalidate()
-            UIView.setAnimationsEnabled(true) 
-            
-        }
-        animation.duration = 0.03
-        animation.isRemovedOnCompletion = false
-        animation.fillMode = .forwards
-        shaperLayer.add(animation, forKey: "animation")
-       
+        
+        
     }
     @objc func addPercentTimer()
     {
-        self.percent = 0
-        self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(runAnimation), userInfo: nil, repeats: true)
+        self.timer?.invalidate()
+        self.percentValue = 0
+        self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(changeProgressValue), userInfo: nil, repeats: true)
         
     }
-    @objc func test()
+    @objc func changeProgressValue()
     {
-        print(Date().timeIntervalSince1970)
+        if self.percentValue < 100
+        {
+            percentValue += 1
+        }else
+        {
+            timer?.invalidate()
+        }
     }
 }
 
