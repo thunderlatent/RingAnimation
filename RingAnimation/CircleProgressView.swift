@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CircleProgressBar: CALayer {
+class CircleProgressView: UIView {
     //MARK: - ----------------Object----------------
     
     //MARK: - 正在跑的進度
@@ -20,6 +20,16 @@ class CircleProgressBar: CALayer {
     private let pulsingLayer = CAShapeLayer()
     
     //MARK: - ----------------Properties----------------
+    
+    //MARK: - 圈圈的大小
+    var radius: CGFloat = 50.0
+    {
+        didSet
+        {
+            layoutSubviews()
+        }
+    }
+
     
     //MARK: - 這個值決定目前的進度
     var progressValue = 0
@@ -66,15 +76,19 @@ class CircleProgressBar: CALayer {
         }
     }
     
-    
-    init(radius: CGFloat) {
-        super.init()
-        createRingCircle(radius: radius)
+   
+//MARK: - -------------------------------初始化-------------------------------
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
         
         //MARK: - 加入這個廣播接收是因為當使用者把APP滑到背景再滑回來時會讓光圈停止，所以加入這個通知，等使用者滑回APP時，動畫繼續
         NotificationCenter.default.addObserver(self, selector: #selector(handleEnterForeGround), name: UIWindowScene.willEnterForegroundNotification, object: nil)
     }
-    
+    override func layoutSubviews() {
+        createRingCircle()
+    }
+  
     @objc private func handleEnterForeGround()
     {
         animationPulsingLayer()
@@ -84,43 +98,53 @@ class CircleProgressBar: CALayer {
     }
     
     //MARK: - 創建讀取圈
-    private func createRingCircle(radius: CGFloat)
+    private func createRingCircle()
     {
-        let circlePath = UIBezierPath(arcCenter: .zero, radius: radius, startAngle: .pi * -0.5, endAngle: .pi * 1.5, clockwise: true)
+        
+        let baseView = UIView(frame: CGRect(x: bounds.midX, y: bounds.midY, width: 0 , height: 0))
+        self.addSubview(baseView)
+        let basePath = UIBezierPath(arcCenter: .zero, radius: radius, startAngle: .pi * -0.5, endAngle: .pi * 1.5, clockwise: true)
+        baseView.layer.addSublayer(pulsingLayer)
+        
+
         pulsingLayer.lineWidth = 15
-        pulsingLayer.path = circlePath.cgPath
+        pulsingLayer.path = basePath.cgPath
         pulsingLayer.strokeColor = UIColor.clear.cgColor
         pulsingLayer.fillColor = pulsingColor
         pulsingLayer.lineCap = .round
-        pulsingLayer.position = .zero
-        self.addSublayer(pulsingLayer)
         
-        trackLayer.path = circlePath.cgPath
+
+        
+        
+        trackLayer.path = basePath.cgPath
         trackLayer.lineWidth = 10
         trackLayer.fillColor = fillColor
         trackLayer.strokeColor = trackColor
-        self.addSublayer(trackLayer)
+        baseView.layer.addSublayer(trackLayer)
         
         progressLayer.lineWidth = 10
-        progressLayer.path = circlePath.cgPath
+        progressLayer.path = basePath.cgPath
         progressLayer.strokeColor = progressColor
         progressLayer.fillColor = fillColor
         progressLayer.lineCap = .round
         progressLayer.strokeEnd = 0
-        self.addSublayer(progressLayer)
+        baseView.layer.addSublayer(progressLayer)
         
         animationPulsingLayer()
+
     }
     
     //MARK: - 創建脈衝光圈
     private func animationPulsingLayer()
     {
         let animation = CABasicAnimation(keyPath: "transform.scale")
+        
         animation.toValue = 1.5
         animation.duration = 1
         animation.autoreverses = true
         animation.repeatCount = Float.infinity
         animation.timingFunction = .init(name: .easeOut)
+        
         pulsingLayer.add(animation, forKey: "animation")
     }
 }

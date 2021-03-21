@@ -11,7 +11,8 @@ class ViewController: UIViewController {
     //MARK: - ----------------Object----------------
     
     //MARK: - 創建讀取動畫物件，稍後再實例化
-    private var circleProgressLayer: CircleProgressBar!
+    private var circleProgressView = CircleProgressView()
+
     
     //MARK: - 顯示進度的Label
     private var percentLabel: UILabel =
@@ -42,7 +43,7 @@ class ViewController: UIViewController {
     {
         didSet
         {
-            circleProgressLayer.progressValue = percentValue
+            circleProgressView.progressValue = percentValue
             percentLabel.text = "\(percentValue)%"
         }
     }
@@ -61,7 +62,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configureLoadingAnimation()
     }
-    
+
     
     
     //MARK: - 設置進度Label
@@ -70,7 +71,7 @@ class ViewController: UIViewController {
         view.addSubview(percentLabel)
         percentLabel.text = "\(percentValue)"
         percentLabel.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
+            make.center.equalTo(circleProgressView.snp.center)
             make.width.equalToSuperview().multipliedBy(0.2)
             make.height.equalToSuperview().multipliedBy(0.1)
         }
@@ -91,10 +92,17 @@ class ViewController: UIViewController {
     {
         //MARK: - 這邊要注意的是label要在circleProgressLayer被addSublayer之後才能addSubview，否則會被layer蓋住
         configureRunAnimationButton()
-        circleProgressLayer = CircleProgressBar(radius: 80)
-        view.layer.addSublayer(circleProgressLayer)
+        configureCircleProgressView()
         configurePercentLabel()
-        circleProgressLayer.position = view.center
+    }
+    private func configureCircleProgressView()
+    {
+        view.addSubview(circleProgressView)
+        circleProgressView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(200)
+        }
+        
     }
     
     //MARK: - 點擊按鈕後開始執行計時器去改變進度
@@ -103,7 +111,6 @@ class ViewController: UIViewController {
         self.timer?.invalidate()
         self.percentValue = 0
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(changeProgressValue), userInfo: nil, repeats: true)
-        
     }
     
     //MARK: - 改變進度值

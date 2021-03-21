@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		531CE27325ECAE1400F2B04A /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531CE27225ECAE1400F2B04A /* CircleProgressBar.swift */; };
+		531CE27325ECAE1400F2B04A /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531CE27225ECAE1400F2B04A /* CircleProgressView.swift */; };
 		53A63B1B25E7E5E6006E7BF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A63B1A25E7E5E6006E7BF2 /* AppDelegate.swift */; };
 		53A63B1D25E7E5E6006E7BF2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A63B1C25E7E5E6006E7BF2 /* SceneDelegate.swift */; };
 		53A63B1F25E7E5E6006E7BF2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A63B1E25E7E5E6006E7BF2 /* ViewController.swift */; };
@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		531CE27225ECAE1400F2B04A /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
+		531CE27225ECAE1400F2B04A /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		53A63B1725E7E5E6006E7BF2 /* RingAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RingAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53A63B1A25E7E5E6006E7BF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53A63B1C25E7E5E6006E7BF2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 				53A63B1A25E7E5E6006E7BF2 /* AppDelegate.swift */,
 				53A63B1C25E7E5E6006E7BF2 /* SceneDelegate.swift */,
 				53A63B1E25E7E5E6006E7BF2 /* ViewController.swift */,
-				531CE27225ECAE1400F2B04A /* CircleProgressBar.swift */,
+				531CE27225ECAE1400F2B04A /* CircleProgressView.swift */,
 				53A63B2325E7E5EC006E7BF2 /* Assets.xcassets */,
 				53A63B2525E7E5EC006E7BF2 /* LaunchScreen.storyboard */,
 				53A63B2825E7E5EC006E7BF2 /* Info.plist */,
@@ -146,7 +146,7 @@
 			files = (
 				53A63B1F25E7E5E6006E7BF2 /* ViewController.swift in Sources */,
 				53A63B1B25E7E5E6006E7BF2 /* AppDelegate.swift in Sources */,
-				531CE27325ECAE1400F2B04A /* CircleProgressBar.swift in Sources */,
+				531CE27325ECAE1400F2B04A /* CircleProgressView.swift in Sources */,
 				53A63B1D25E7E5E6006E7BF2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
